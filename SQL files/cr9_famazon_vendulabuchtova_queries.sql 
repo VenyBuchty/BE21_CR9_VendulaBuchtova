@@ -1,0 +1,44 @@
+1.How many rows are in each table:
+SELECT TABLE_NAME,SUM(TABLE_ROWS) 
+ 	FROM INFORMATION_SCHEMA.TABLES 
+ 	WHERE TABLE_SCHEMA = 'cr9_famazon_vendulabuchtova' 
+ 	GROUP BY TABLE_NAME;
+
+
+2.How many orders were realized in 2021:
+SELECT COUNT(order_date) 
+	FROM Orders
+	WHERE EXTRACT(YEAR FROM order_date) = 2021;
+
+
+3.Most expensive order in 2020:
+SELECT MAX(order_price)
+    FROM Orders
+    WHERE order_date BETWEEN '2020-01-01' AND '2021-01-01';
+
+
+4.How many products were sent between 01.12.2020 and current date:
+SELECT COUNT(*)
+    FROM Shipping
+    WHERE shipping_date BETWEEN '2020-12-01' AND CURRENT_DATE();
+
+
+5.Name and adress of customer, who ordered on 15.12.2020:
+SELECT Customer.first_name, Customer.last_name, Customer.address
+	 FROM Customer
+	 JOIN Orders ON Customer.username = Orders.fk_customer_username
+	 WHERE Orders.order_date = "2020-12-15";
+
+6.How many products were bought from a company named 'Quimm'
+SELECT COUNT(*)
+    FROM Company
+    JOIN Product ON Product.fk_company_ID = Company.company_ID
+    WHERE Product.fk_company_ID = 1436;
+
+7.What are names of customers, who ordered 'Bread Ww Cluster':
+    SELECT Customer.first_name, Customer.last_name
+	 FROM Customer
+	 JOIN Orders ON Customer.username = Orders.fk_customer_username
+	 WHERE Orders.fk_product_ID = 1006;
+
+
